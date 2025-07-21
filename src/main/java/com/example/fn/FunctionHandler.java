@@ -18,6 +18,7 @@ public class FunctionHandler {
     @Autowired
     private JwtUtil jwtUtil;
 
+
     @FunctionName("register")
     public HttpResponseMessage register(
             @HttpTrigger(name = "req", methods = {HttpMethod.POST}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<User>> request,
@@ -54,23 +55,4 @@ public class FunctionHandler {
     }
 
 
-    @FunctionName("get-data")
-    public HttpResponseMessage getData(
-            @HttpTrigger(name = "req", methods = {HttpMethod.GET}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
-            final ExecutionContext context) {
-        context.getLogger().info("Java HTTP trigger processed a request to the get-data endpoint.");
-
-        String authHeader = request.getHeaders().get("authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
-            String username = jwtUtil.extractUsername(token);
-            if (jwtUtil.validateToken(token, username)) {
-                return request.createResponseBuilder(HttpStatus.OK).body("Here is your protected data, " + username + "!").build();
-            } else {
-                return request.createResponseBuilder(HttpStatus.UNAUTHORIZED).body("Token is not valid.").build();
-            }
-        } else {
-            return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Authorization header is missing or invalid.").build();
-        }
-    }
 }
