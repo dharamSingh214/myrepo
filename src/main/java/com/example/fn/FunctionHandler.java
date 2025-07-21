@@ -53,18 +53,19 @@ public class FunctionHandler {
         }
     }
 
-    @FunctionName("validate")
-    public HttpResponseMessage validate(
+
+    @FunctionName("get-data")
+    public HttpResponseMessage getData(
             @HttpTrigger(name = "req", methods = {HttpMethod.GET}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
             final ExecutionContext context) {
-        context.getLogger().info("Java HTTP trigger processed a request to validate a token.");
+        context.getLogger().info("Java HTTP trigger processed a request to the get-data endpoint.");
 
         String authHeader = request.getHeaders().get("authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             String username = jwtUtil.extractUsername(token);
             if (jwtUtil.validateToken(token, username)) {
-                return request.createResponseBuilder(HttpStatus.OK).body("Token is valid.").build();
+                return request.createResponseBuilder(HttpStatus.OK).body("Here is your protected data, " + username + "!").build();
             } else {
                 return request.createResponseBuilder(HttpStatus.UNAUTHORIZED).body("Token is not valid.").build();
             }
