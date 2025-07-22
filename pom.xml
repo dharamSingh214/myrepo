@@ -84,7 +84,14 @@
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
                             <value>~4</value>
                         </property>
+                        <property>
+                            <name>FUNCTIONS_WORKER_RUNTIME</name>
+                            <value>java</value>
+                        </property>
                     </appSettings>
+                    <extensionBundle>
+                        <version>[2.*, 3.0.0)</version>
+                    </extensionBundle>
                 </configuration>
                 <executions>
                     <execution>
