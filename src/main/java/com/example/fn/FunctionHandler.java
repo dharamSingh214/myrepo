@@ -19,7 +19,6 @@ public class FunctionHandler {
     private JwtUtil jwtUtil;
 
 
-    @FunctionName("register")
     public HttpResponseMessage register(
             @HttpTrigger(name = "req", methods = {HttpMethod.POST}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<User>> request,
             final ExecutionContext context) {
@@ -34,7 +33,6 @@ public class FunctionHandler {
         }
     }
 
-    @FunctionName("login")
     public HttpResponseMessage login(
             @HttpTrigger(name = "req", methods = {HttpMethod.POST}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<User>> request,
             final ExecutionContext context) {
