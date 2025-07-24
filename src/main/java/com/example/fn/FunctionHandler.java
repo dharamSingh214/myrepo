@@ -4,25 +4,18 @@ import com.microsoft.azure.functions.*;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Component
 public class FunctionHandler {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
-
+    @FunctionName("register")
     public HttpResponseMessage register(
             @HttpTrigger(name = "req", methods = {HttpMethod.POST}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<User>> request,
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request to register a user.");
+
+        UserService userService = FunctionApplication.getContext().getBean(UserService.class);
 
         Optional<User> user = request.getBody();
         if (user.isPresent()) {
@@ -33,10 +26,14 @@ public class FunctionHandler {
         }
     }
 
+    @FunctionName("login")
     public HttpResponseMessage login(
             @HttpTrigger(name = "req", methods = {HttpMethod.POST}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<User>> request,
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request to log in a user.");
+
+        UserService userService = FunctionApplication.getContext().getBean(UserService.class);
+        JwtUtil jwtUtil = FunctionApplication.getContext().getBean(JwtUtil.class);
 
         Optional<User> user = request.getBody();
         if (user.isPresent()) {
