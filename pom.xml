@@ -89,6 +89,7 @@
                             <value>java</value>
                         </property>
                     </appSettings>
+                    <functionClass>com.example.fn.Handler</functionClass>
                     <extensionBundle>
                         <version>[2.*, 3.0.0)</version>
                     </extensionBundle>
